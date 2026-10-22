@@ -31,3 +31,11 @@ for (const name of names) {
   if (process.argv.includes("--audit")) mod.audit();
 }
 writeFileSync(join(ROOT, "index.html"), html);
+
+// The Open Graph card reuses the hero figure.
+const ogPath = join(ROOT, "og", "index.html");
+try {
+  let og = readFileSync(ogPath, "utf8");
+  const hero = html.match(/<!--fig:hero-->[\s\S]*?<!--\/fig:hero-->/);
+  if (hero) writeFileSync(ogPath, og.replace(/<!--fig:hero-->[\s\S]*?<!--\/fig:hero-->/, hero[0]));
+} catch {}
